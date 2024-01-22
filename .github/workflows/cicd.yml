@@ -1,0 +1,77 @@
+name: C# .NET 8.0 CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  TZ: Asia/Shanghai
+  BUILD_GREETING: hello
+  SEGMENT_DOWNLOAD_TIMEOUT_MINS: '5'
+  JASYPT_PASSWORD: ${{ secrets.JASYPT_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # pull代码
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build Src
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      - name: Publish
+        run: |
+          dotnet publish "cs-hello-world.csproj" -c Release -o ./publish/
+          pwd
+          ls -la
+      - name: Docker login
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.REGISTRY_HOST }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Build and push docker image
+        env:
+          NAMESPACE: a2cd
+          IMAGE_NAME: cs-hello-world
+          IMAGE_TAG: latest
+        run: |
+          docker build --build-arg ARG_JASYPT_PASSWORD=$JASYPT_PASSWORD -t $REGISTRY/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG .
+          docker push $REGISTRY/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG
+      - name: Setup SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOST_KEY: a2cd # 不能用~/.ssh/a2cd.key作为value
+        run: |
+          mkdir -p ~/.ssh/ && echo "$SSH_PRIVATE_KEY" > ~/.ssh/$HOST_KEY.pri.key && chmod 600 ~/.ssh/$HOST_KEY.pri.key
+          cat >> ~/.ssh/config <<END
+          Host $HOST_KEY
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/$HOST_KEY.pri.key
+            StrictHostKeyChecking no
+          END
+      - name: Run git pull
+        # 从github pull代码，失败重试3次
+        run: |
+          ssh a2cd "cd /usr/local/repo/cs-hello-world/ && \
+                    git pull origin main || \
+                    (echo 'git pull retry: 1/3' && git pull origin main) || \
+                    (echo 'git pull retry: 2/3' && git pull origin main) || \
+                    (echo 'git pull retry: 3/3' && git pull origin main) || \
+                    (echo 'git pull failed' && exit 1)"
+      - name: Deploy
+        run: |
+          ssh a2cd "cd /usr/local/repo/cs-hello-world/ && \
+                    docker-compose pull && \
+                    docker-compose up -d"

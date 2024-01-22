@@ -1,0 +1,6 @@
+@cs_hello_world_HostAddress = http://localhost:5200
+
+GET {{cs_hello_world_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

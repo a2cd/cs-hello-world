@@ -1,0 +1,16 @@
+﻿services:
+  cs-hello-world:
+    hostname: cs-hello-world
+    image: 'ccr.ccs.tencentyun.com/a2cd/cs-hello-world:latest'
+    container_name: cs-hello-world
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - ASPNETCORE_ENVIRONMENT=prd
+      - HELLO=1
+    networks:
+      - main
+
+networks:
+  main:
+    external: true
