@@ -9,6 +9,7 @@ public static class EncUtil
     /// <returns>返回解密后的字符串</returns>
     public static string Parse(string text)
     {
+        Console.WriteLine($"EncUtil Parse input: {text}");
         if (!text.StartsWith("ENC(") || !text.EndsWith(')'))
             throw new Exception("密文必须以 'ENC(' 开头, 以 ')' 结尾");
         string str;
