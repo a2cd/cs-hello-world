@@ -3,7 +3,7 @@ WORKDIR /src
 COPY . .
 RUN dotnet restore \
     && dotnet build --no-restore \
-    && dotnet publish -c Release -o /src/publish/ /p:UseAppHost=false \
+    && dotnet publish -c Release -o /src/publish/ \
     && ls -la ./publish/
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
