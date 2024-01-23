@@ -15,6 +15,8 @@ ENV CS_HELLO_WORLD_AES_KEY=$ARG_CS_HELLO_WORLD_AES_KEY
 WORKDIR /app
 #COPY ./publish/ /app/publish/
 COPY --from=builder /src/publish/ /app/publish/
-RUN ls -ls ./publish/
+RUN ls -ls ./publish/ \
+    && echo $ASPNETCORE_ENVIRONMENT \
+    && echo $CS_HELLO_WORLD_AES_KEY
 ENTRYPOINT dotnet ./publish/cs-hello-world.dll
 EXPOSE 8080
