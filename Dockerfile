@@ -9,7 +9,8 @@ RUN dotnet restore \
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG ARG_CS_HELLO_WORLD_AES_KEY=""
 ENV TZ=Asia/Shanghai
-ENV ASPNETCORE_ENVIRONMENT="prd"
+ENV ASPNETCORE_ENVIRONMENT=prd
+ENV DOTNET_ENVIRONMENT=prd
 ENV CS_HELLO_WORLD_AES_KEY=$ARG_CS_HELLO_WORLD_AES_KEY
 
 WORKDIR /app
@@ -17,6 +18,7 @@ WORKDIR /app
 COPY --from=builder /src/publish/ /app/publish/
 RUN ls -ls ./publish/ \
     && echo $ASPNETCORE_ENVIRONMENT \
-    && echo $CS_HELLO_WORLD_AES_KEY
+    && echo $CS_HELLO_WORLD_AES_KEY \
+    && echo $DOTNET_ENVIRONMENT
 ENTRYPOINT dotnet ./publish/cs-hello-world.dll
 EXPOSE 8080

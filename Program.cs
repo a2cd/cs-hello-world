@@ -4,13 +4,14 @@ using cs_hello_world.Const;
 using cs_hello_world.Util;
 
 var builder = WebApplication.CreateBuilder(args);
-
+Console.WriteLine($"CS_HELLO_WORLD_AES_KEY={AesUtil.AesKey}");
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+Console.WriteLine($"current profile={app.Environment.EnvironmentName}");
 Cfg.Init(app.Configuration); // 读取配置文件
 BlockingListListener.Listen(); // 监听blocking list
 
