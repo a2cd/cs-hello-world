@@ -9,9 +9,8 @@ RUN dotnet restore \
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG ARG_CS_HELLO_WORLD_AES_KEY=""
 ENV TZ=Asia/Shanghai
-ENV ASPNETCORE_ENVIRONMENT=prd
+ENV ASPNETCORE_ENVIRONMENT="prd"
 ENV CS_HELLO_WORLD_AES_KEY=$ARG_CS_HELLO_WORLD_AES_KEY
-
 
 WORKDIR /app
 #COPY ./publish/ /app/publish/
