@@ -10,7 +10,7 @@ env:
   TZ: Asia/Shanghai
   BUILD_GREETING: hello
   SEGMENT_DOWNLOAD_TIMEOUT_MINS: '5'
-  JASYPT_PASSWORD: ${{ secrets.JASYPT_PASSWORD }}
+  CS_HELLO_WORLD_AES_KEY: ${{ secrets.CS_HELLO_WORLD_AES_KEY }}
 
 jobs:
   build:
@@ -44,7 +44,7 @@ jobs:
           IMAGE_NAME: cs-hello-world
           IMAGE_TAG: latest
         run: |
-          docker build --build-arg ARG_JASYPT_PASSWORD=$JASYPT_PASSWORD -t $REGISTRY/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG .
+          docker build --build-arg ARG_CS_HELLO_WORLD_AES_KEY=CS_HELLO_WORLD_AES_KEY -t $REGISTRY/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG .
           docker push $REGISTRY/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG
       - name: Setup SSH
         env:
