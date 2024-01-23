@@ -2,7 +2,6 @@
 WORKDIR /src
 COPY . .
 RUN dotnet restore \
-    && dotnet build --no-restore \
     && dotnet publish -c Release -o /src/publish/ \
     && ls -la ./publish/
 
@@ -15,10 +14,10 @@ ENV CS_HELLO_WORLD_AES_KEY=$ARG_CS_HELLO_WORLD_AES_KEY
 
 WORKDIR /app
 #COPY ./publish/ /app/publish/
-COPY --from=builder /src/publish/ /app/publish/
+COPY --from=builder /src/publish/* /app/
 RUN ls -ls ./publish/ \
     && echo $ASPNETCORE_ENVIRONMENT \
     && echo $CS_HELLO_WORLD_AES_KEY \
     && echo $DOTNET_ENVIRONMENT
-ENTRYPOINT dotnet ./publish/cs-hello-world.dll
+ENTRYPOINT dotnet cs-hello-world.dll
 EXPOSE 8080
