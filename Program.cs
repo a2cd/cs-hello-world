@@ -13,6 +13,13 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 Console.WriteLine($"current profile={app.Environment.EnvironmentName}");
 Cfg.Init(app.Configuration); // 读取配置文件
+
+Console.WriteLine($"Redis.Host={Cfg.Redis.Host}");
+Console.WriteLine($"Redis.Port={Cfg.Redis.Port}");
+Console.WriteLine($"Redis.Username={Cfg.Redis.Username}");
+Console.WriteLine($"Redis.Password={Cfg.Redis.Password}");
+
+Console.WriteLine($"Logging.LogLevel.Default={Cfg.Logging.LogLevel.Default}");
 BlockingListListener.Listen(); // 监听blocking list
 
 // Configure the HTTP request pipeline.
