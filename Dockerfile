@@ -4,8 +4,7 @@ COPY . .
 RUN dotnet restore \
     && dotnet build --no-restore \
     && dotnet publish -c Release -o /src/publish/ /p:UseAppHost=false \
-    && cd publish \
-    && ls -la
+    && ls -la ./publish/
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG ARG_CS_HELLO_WORLD_AES_KEY=""
