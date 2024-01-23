@@ -40,12 +40,13 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build and push docker image
         env:
+          REGISTRY_HOST: ${{ secrets.REGISTRY_HOST }}
           NAMESPACE: a2cd
           IMAGE_NAME: cs-hello-world
           IMAGE_TAG: latest
         run: |
-          docker build --build-arg ARG_CS_HELLO_WORLD_AES_KEY=$CS_HELLO_WORLD_AES_KEY -t $REGISTRY/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG .
-          docker push $REGISTRY/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG
+          docker build --build-arg ARG_CS_HELLO_WORLD_AES_KEY=$CS_HELLO_WORLD_AES_KEY -t $REGISTRY_HOST/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG .
+          docker push $REGISTRY_HOST/$NAMESPACE/$IMAGE_NAME:$IMAGE_TAG
       - name: Setup SSH
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
