@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 Cfg.Init(app.Configuration); // 读取配置文件
-// BlockingListListener.Listen(); // 监听blocking list
+BlockingListListener.Listen(); // 监听blocking list
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsEnvironment(Env.Prd))
@@ -45,6 +45,20 @@ app.MapGet("/redis/list/{key}/{val}", (string key, string val) =>
         };
     })
     .WithName("ListLPush")
+    .WithOpenApi();
+
+app.MapGet("/aes/encrypt/{val}", (string val) =>
+    {
+        var encrypted = AesUtil.Encrypt(val, AesUtil.AesKey);
+        return new
+        {
+            Code = 200,
+            Data = encrypted,
+            Msg = "success",
+            Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss dddd")
+        };
+    })
+    .WithName("EncryptText")
     .WithOpenApi();
 
 app.Run();

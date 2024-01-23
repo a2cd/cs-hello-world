@@ -9,7 +9,7 @@ public static class RedisUtil
 {
     public static ConnectionMultiplexer Conn =
         ConnectionMultiplexer.Connect(
-            $"{Cfg.Redis.Host}:{Cfg.Redis.Port},password={Cfg.Redis.Password},ConnectTimeout=10000");
+            $"{Cfg.Redis.Host}:{Cfg.Redis.Port},password={EncUtil.Parse(Cfg.Redis.Password)},ConnectTimeout=10000");
 
     public static readonly IDatabase Db = Conn.GetDatabase();
 
