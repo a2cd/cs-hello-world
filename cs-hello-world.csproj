@@ -21,4 +21,14 @@
       <Content Include=".github\workflows\cicd.yml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="publish\web.config" />
+      <_ContentIncludedByDefault Remove="publish\appsettings.dev.json" />
+      <_ContentIncludedByDefault Remove="publish\appsettings.json" />
+      <_ContentIncludedByDefault Remove="publish\appsettings.prd.json" />
+      <_ContentIncludedByDefault Remove="publish\appsettings.replica1.json" />
+      <_ContentIncludedByDefault Remove="publish\cs-hello-world.deps.json" />
+      <_ContentIncludedByDefault Remove="publish\cs-hello-world.runtimeconfig.json" />
+    </ItemGroup>
+
 </Project>
