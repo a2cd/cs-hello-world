@@ -4,6 +4,7 @@ public static class Cfg
 {
     public static RedisConfig Redis { get; private set; } = null!;
     public static LoggingConfig Logging { get; private set; } = null!;
+    public static AppInfoConfig AppInfo { get; private set; } = null!;
 
     public static void Init(IConfiguration configuration)
     {
@@ -14,5 +15,9 @@ public static class Cfg
         var loggingConfig = new LoggingConfig();
         configuration.Bind("Logging", loggingConfig);
         Logging = loggingConfig;
+
+        var appInfoConfig = new AppInfoConfig();
+        configuration.Bind("AppInfo", appInfoConfig);
+        AppInfo = appInfoConfig;
     }
 }

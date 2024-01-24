@@ -14,6 +14,9 @@ var app = builder.Build();
 Console.WriteLine($"current profile={app.Environment.EnvironmentName}");
 Cfg.Init(app.Configuration); // 读取配置文件
 
+Console.WriteLine($"AppInfo.Env={Cfg.AppInfo.Env}");
+
+Console.WriteLine($"Redis.Host={Cfg.Redis.Host}");
 Console.WriteLine($"Redis.Host={Cfg.Redis.Host}");
 Console.WriteLine($"Redis.Port={Cfg.Redis.Port}");
 Console.WriteLine($"Redis.Username={Cfg.Redis.Username}");
