@@ -1,4 +1,5 @@
-﻿services:
+﻿version: "3"
+services:
   cs-hello-world:
     hostname: cs-hello-world
     image: 'ccr.ccs.tencentyun.com/a2cd/cs-hello-world:latest'
@@ -9,6 +10,11 @@
       - HELLO=1
     networks:
       - main
+    deploy:
+      resources:
+        limits:
+          cpus: '0.20'
+          memory: 100M
 
 networks:
   main:
