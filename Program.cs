@@ -4,25 +4,13 @@ using cs_hello_world.Const;
 using cs_hello_world.Util;
 
 var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine($"CS_HELLO_WORLD_AES_KEY={AesUtil.AesKey}");
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 Console.WriteLine($"current profile={app.Environment.EnvironmentName}");
 Cfg.Init(app.Configuration); // 读取配置文件
-
-Console.WriteLine($"AppInfo.Env={Cfg.AppInfo.Env}");
-
-Console.WriteLine($"Redis.Host={Cfg.Redis.Host}");
-Console.WriteLine($"Redis.Host={Cfg.Redis.Host}");
-Console.WriteLine($"Redis.Port={Cfg.Redis.Port}");
-Console.WriteLine($"Redis.Username={Cfg.Redis.Username}");
-Console.WriteLine($"Redis.Password={Cfg.Redis.Password}");
-
-Console.WriteLine($"Logging.LogLevel.Default={Cfg.Logging.LogLevel.Default}");
 BlockingListListener.Listen(); // 监听blocking list
 
 // Configure the HTTP request pipeline.
