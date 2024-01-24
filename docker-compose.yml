@@ -1,18 +1,11 @@
 ﻿services:
   cs-hello-world:
     hostname: cs-hello-world
-    # image: 'ccr.ccs.tencentyun.com/a2cd/cs-hello-world:latest'
-    image: 'cs-hello-world:latest'
+    image: 'ccr.ccs.tencentyun.com/a2cd/cs-hello-world:latest'
     container_name: cs-hello-world
     restart: always
     environment:
       - TZ=Asia/Shanghai
-      #      - DOTNET_URLS=http://localhost:8080
-      #      - ASPNETCORE_URLS=http://localhost:8080
-      - DOTNET_ENVIRONMENT=prd
-        #      - ASPNETCORE_ENVIRONMENT=prd
-      #      - ASPNETCORE_HTTP_PORTS=8081
-      #- DOTNET_HTTP_PORTS=8081
       - HELLO=1
     networks:
       - main
