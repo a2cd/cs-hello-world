@@ -1,6 +1,7 @@
 using cs_hello_world.Component;
 using cs_hello_world.Config;
 using cs_hello_world.Const;
+using cs_hello_world.Tasks;
 using cs_hello_world.Util;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +59,20 @@ app.MapGet("/aes/encrypt/{val}", (string val) =>
         };
     })
     .WithName("EncryptText")
+    .WithOpenApi();
+
+app.MapGet("/usn/enqueue", async () =>
+    {
+        await SyncUsnTask.EnqueueAsync();
+        return new
+        {
+            Code = 200,
+            Data = "",
+            Msg = "success",
+            Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss dddd")
+        };
+    })
+    .WithName("EnqueueUsn")
     .WithOpenApi();
 
 app.Run();

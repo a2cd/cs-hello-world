@@ -1,10 +1,13 @@
 ﻿using cs_hello_world.Config;
 using cs_hello_world.Const;
+using cs_hello_world.Tasks;
 using cs_hello_world.Util;
 using CSRedis;
 
 namespace cs_hello_world.Component;
-
+/// <summary>
+/// LongRunning类似于Main线程，可以调用异步并使用.Wait()等待
+/// </summary>
 public static class BlockingListListener
 {
     public static void Listen()
@@ -34,16 +37,17 @@ public static class BlockingListListener
                 using var rLock = RedisUtil.RedLockFactory.CreateLock(RedisKey.SfcsMoList, ExpiryTime,
                     WaitTime, TimeSpan.Zero);
                 if (!rLock.IsAcquired) continue;
-                var data = RedisHelper.BRPop(30, RedisKey.SfcsMoList);
+                var data = RedisHelper.BRPop(50, RedisKey.SfcsMoList);
                 if (data == null) continue;
                 Console.WriteLine($"{DateTime.Now} MO data received: {data}");
             }
             catch (Exception e)
             {
                 // for redis not running
-                Thread.Sleep(10000);
+                Thread.Sleep(30000);
             }
         }
+        // ReSharper disable once FunctionNeverReturns
     }
 
     private static void ListenSfcsUsnList()
@@ -52,18 +56,32 @@ public static class BlockingListListener
         {
             try
             {
-                using var rLock = RedisUtil.RedLockFactory.CreateLock(RedisKey.SfcsUsnList, ExpiryTime,
+                using var rLock = RedisUtil.RedLockFactory.CreateLock(RedisKey.SfcsUsnListLocal, ExpiryTime,
                     WaitTime, TimeSpan.Zero);
                 if (!rLock.IsAcquired) continue;
-                var data = RedisHelper.BRPop(30, RedisKey.SfcsUsnList);
+                var data = RedisHelper.BRPop(50, RedisKey.SfcsUsnListLocal);
                 if (data == null) continue;
+
+                try
+                {
+                    Console.WriteLine($"1 : {Environment.CurrentManagedThreadId}");
+                    SyncUsnTask.ExecuteAsync().GetAwaiter().GetResult();
+                    Console.WriteLine($"4 : {Environment.CurrentManagedThreadId}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"execute error: {e.Message}");
+                    continue;
+                }
+
                 Console.WriteLine($"{DateTime.Now} USN data received: {data}");
             }
             catch (Exception e)
             {
                 // for redis not running
-                Thread.Sleep(10000);
+                Thread.Sleep(30000);
             }
         }
+        // ReSharper disable once FunctionNeverReturns
     }
 }
