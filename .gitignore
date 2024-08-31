@@ -1,7 +1,14 @@
 .idea/
+.history/
+.vscode/
+
 bin/
 obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
 publish/
+
+
+
+

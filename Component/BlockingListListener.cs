@@ -1,4 +1,4 @@
-﻿using cs_hello_world.Config;
+using cs_hello_world.Config;
 using cs_hello_world.Const;
 using cs_hello_world.Tasks;
 using cs_hello_world.Util;

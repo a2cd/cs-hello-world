@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-hello-world", "cs-hello-world.csproj", "{EC7D3D9D-E9BF-4DD8-8BFE-C092998F6D90}"
 EndProject

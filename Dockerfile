@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG ARG_CS_HELLO_WORLD_AES_KEY=""
 ENV TZ=Asia/Shanghai
 ENV DOTNET_ENVIRONMENT=prd

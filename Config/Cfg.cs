@@ -1,4 +1,4 @@
-﻿namespace cs_hello_world.Config;
+namespace cs_hello_world.Config;
 
 public static class Cfg
 {

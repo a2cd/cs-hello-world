@@ -1,4 +1,4 @@
-﻿# C# hello world
+# C# hello world
 
 ## 作用
 1. 对比各语言框架所占用资源情况

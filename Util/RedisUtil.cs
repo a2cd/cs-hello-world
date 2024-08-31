@@ -1,4 +1,4 @@
-﻿using cs_hello_world.Config;
+using cs_hello_world.Config;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
 using StackExchange.Redis;

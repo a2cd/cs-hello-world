@@ -1,4 +1,4 @@
-﻿namespace cs_hello_world.Const;
+namespace cs_hello_world.Const;
 
 public static class RedisKey
 {
